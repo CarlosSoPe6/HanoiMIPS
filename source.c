@@ -18,6 +18,8 @@ int main()
     b = (int *) calloc(size, sizeof(int));
     c = (int *) calloc(size, sizeof(int));
     
+//Hola
+
     stackA = 4;
     stackB = 0;
     stackC = 0;
