@@ -5,8 +5,15 @@
 # param $a1:    Stack pointer
 # return $v0:   Element retrived  
 stackPop:
-    addi        $t0, $t1, 0			# $t0 = $t1 + 0
-    
+    lw		$t0, 0($a1)		        # Load $t0 = *$a1 
+    bne		$t0, $zero, sptrZero	# if $t0 != $zero then sptrZero
+    addi	$t0, $t0, -1			# $t0 = $t0 + -1
+    sw		$t0, 0($a1)		        # Store *$a1 = $t0
+    sptrZero:
+    sll     $t0, $t0, 2             # $t1 = $a1 << 2
+    add		$t0, $a0, $t0		    # $t0 = $a0 + $t0
+    lw		$v0, 0($t1)		        # Load $v0 = *$t0
+    jr $ra
 
 # Comment std
 _division:
