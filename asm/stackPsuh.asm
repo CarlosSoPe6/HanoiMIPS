@@ -1,6 +1,6 @@
 # ------ [ stackPush ] ----------------------
 # 
-# Retrive and remove a element from a stack
+# Adds a element to the stack
 # param $a0:    Stack head
 # param $a1:    Stack pointer
 # param $a2:    Data to push
