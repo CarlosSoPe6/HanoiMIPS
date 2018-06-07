@@ -8,6 +8,7 @@ stackPop:
     addi        $t0, $t1, 0			# $t0 = $t1 + 0
     
 
+# Comment std
 _division:
     slt     $t0, $a1, $a0
     addi    $v0, $zero, 0
