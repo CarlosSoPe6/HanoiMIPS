@@ -22,6 +22,9 @@ for:
 	slti 	$t0, $s3, $a3	       # for(k=0; k < N; k++)
         addi    $s3, $s3, 1            # k++
         beq     $t3, $zero, endfor     # if t0==1 --> endfor
+        sll	$t1, $s3, 2    	       # Shift left i
+	add 	$t1, $t1, $a0          # Adding an offset to the base address
+	lw 	$t2, 0($t1)            # Loading data from memory (vector1)
         j 	for
 endfor:               
 
