@@ -31,7 +31,7 @@ endfor:
 	jal	hanoi
 
 hanoi: 
-        slti 	$t0, $a3, 1 		# if n = 1
+        slti 	$t0, $a3, 1 		# Execute until N=0
 	beq 	$t0, $zero, loop 	# Branch to loop
 	j exit
 
@@ -43,7 +43,10 @@ loop:
         sw	$a1, 8($sp)             # Storing stackB pointer
         sw      $a2, 12($sp)            # Storing stackC pointer
         sw      $a3, 16($sp)            # Storing N
-        jr       $ra
+        subi    $a3, $a3, 1             # Decrement N
+        jal	stackPop
+        jal	stackPush 
+        jr      $ra
 
 stackPop:
 
