@@ -31,12 +31,12 @@ endfor:
 	jal	hanoi
 
 hanoi: 
+        add     $s0, $zero, $a3
         slti 	$t0, $a3, 1 		# Execute until N=0
 	beq 	$t0, $zero, loop 	# Branch to loop
-	j exit
+	jr      $ra
 
 loop: 
-        beq     $a3, $zero, exit        # The call ends when N=0
         addi    $sp, $sp, -20           # Decreasing stack pointer
         sw	$ra, 0($sp)             # Storing return address
         sw	$a0, 4($sp)             # Storing stackA pointer 
@@ -44,9 +44,23 @@ loop:
         sw      $a2, 12($sp)            # Storing stackC pointer
         sw      $a3, 16($sp)            # Storing N
         subi    $a3, $a3, 1             # Decrement N
-        jal	stackPop
-        jal	stackPush 
+        jal     hanoi
+        
+        add     $a3, $zero, $s0
+        jal	stackPop                # Taking one plate
+        jal	stackPush               # Placing one plate
+        
+        subi    $a3, $a3, 1             # Decrement N
+        jal     hanoi
+        
+        lw	$ra, 0($sp)             # Loading return address
+        lw	$a0, 4($sp)             # Loading stackA pointer
+        lw	$a1, 8($sp)             # Loading stackB pointer
+        lw      $a2, 12($sp)            # Loading stackC pointer
+        lw      $a3, 16($sp)            # Loading N
+        addi    $sp, $sp, 20            # Increasing stack pointer
         jr      $ra
+        
 
 stackPop:
 
