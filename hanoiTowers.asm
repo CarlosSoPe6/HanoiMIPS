@@ -1,15 +1,21 @@
 	
           
 .text    
+
+#------------------------------[Main function]-----------------------------------
+#
+# Initialize stack pointers to indicate where the stacks are located, define the
+# number of plates and the index for every stack
+
 	ori 	$a0, $at , 0x1001 	
 	sll     $a0, $a0, 16
-	ori 	$a0, $at , 0x0000 	# Pointer to stack A
-	ori 	$a0, $at , 0x1001 	
-	sll     $a0, $a0, 16
-	ori 	$a1, $at , 0x0050       # Pointer to stack B
-	ori 	$a0, $at , 0x1001 	
-	sll     $a0, $a0, 16
-	ori 	$a2, $at , 0x00A0       # Pointer to stack c  
+	addi 	$a0, $a0 , 0x0000 	# Pointer to stack A
+	ori 	$a1, $at , 0x1001 	
+	sll     $a1, $a1, 16
+	addi 	$a1, $a1 , 0x0050       # Pointer to stack B
+	ori 	$a2, $at , 0x1001 	
+	sll     $a2, $a1, 16
+	addi 	$a2, $a2 , 0x00A0       # Pointer to stack c  
 		
 main:	
 
@@ -18,9 +24,15 @@ main:
 	addi 	$s1, $zero, 0	        # Stack B index
 	addi 	$s2, $zero, 0	        # Stack C index
 	addi	$s3, $zero, -1          # k (for counter)
-	
+
+# ----------------------------[Filling clycle]------------------------------------
+#
+# Fill stackA with the N plates and his values
+# param s3: for's counter = k
+		
 for: 
-	slt 	$t0, $s3, $a3	        # for(k=0; k < N; k++)
+	sub 	$t0, $s3, $a3	        # for(k=0; k < N; k++)
+	srl     $t0, $t0, 31
         addi    $s3, $s3, 1             # k++
         beq     $t0, $zero, endfor      # if t0==1 --> endfor
         sub     $t2, $a3, $s3  
@@ -31,6 +43,14 @@ for:
 endfor:               
        
 	jal	hanoi
+
+#------------------------------[Hanoi Functio]--------------------------------------
+#
+# Determine the correct move to organize the towers following the given rules
+# param a0: pointer to stackA
+# param a1: pointer to stackB
+# param a2: pointer to stackC
+# param a3: number of plates = N
 
 hanoi: 
         add     $s0, $zero, $a3
