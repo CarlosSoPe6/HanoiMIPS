@@ -19,7 +19,7 @@
 		
 main:	
 
-        addi 	$a3, $zero, 6		# N= Number of plates
+        addi 	$a3, $zero, 3		# N= Number of plates
 	add 	$s0, $zero, $a3         # Stack A index
 	addi 	$s1, $zero, 0	        # Stack B index
 	addi 	$s2, $zero, 0	        # Stack C index
@@ -47,9 +47,9 @@ endfor:
 #------------------------------[Hanoi Functio]--------------------------------------
 #
 # Determine the correct move to organize the towers following the given rules
-# param a0: pointer to stackA
-# param a1: pointer to stackB
-# param a2: pointer to stackC
+# param a0: source pointer
+# param a1: aux pointer
+# param a2: target pointer
 # param a3: number of plates = N
 
 hanoi: 
@@ -69,10 +69,18 @@ loop:
         jal     hanoi
         
         jal	stackPop                # Taking one plate
+        add     $t2, $t2, $a1           # Backing aux value
 	add	$a1, $zero, $v0		# $a1 = $zero + $v0
 					# Load from source
         jal	stackPush               # Placing one plate
-        
+        add     $a1, $zero, $t2         # Restoring aux value
+                                           
+        add	$t3, $zero, $a1         # Backing aux
+        add	$t4, $zero, $a2         # Backing target
+        add	$a2, $zero, $a0         # Now a2 --> source
+        add	$a1, $zero, $t4         # Now a1 --> target
+        add	$a0, $zero, $t3         # Now a0 --> aux
+         
         subi    $a3, $a3, 1             # Decrement N
         jal     hanoi
         
@@ -91,10 +99,10 @@ loop:
 # param     $a0:    Stack ref
 # return    $v0:    Element retrived  
 stackPop:
-    	lw	$t0, 0($s0)		# Load the stack's reference
+    	lw	$t0, 0($a0)		# Load the stack's reference
     	addi	$t0, $t0, 4		# $t0 = $t0 + 4
     	lw	$v0, 0($v0)		# Load the stack value
-    	sw      $t0, 0($s0)     	# Store the new stack reference
+    	sw      $t0, 0($a0)     	# Store the new stack reference
 	lw	$t0, 0($zero)		# Clear stack
     	jr	$ra			# jump to $ra 
     
@@ -102,10 +110,10 @@ stackPop:
 # ------ [ stackPush ] ----------------------
 # 
 # Adds a element to the stack
-# param     $a0:    Stack ref
+# param     $a2:    Stack ref
 # param     $a1:    Data to push
 stackPush:
-    	lw	 $t0, 0($s0)		# Load the stack's reference
+    	lw	 $t0, 0($a2)		# Load the stack's reference
    	sw	 $a1, 0($t0)		# Store at stack's reference
     	addi	 $t0, $t0, -4		# $t0 = $t0 + -4
     	jr	 $ra		        # jump to $ra  
