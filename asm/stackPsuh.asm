@@ -1,14 +1,12 @@
 # ------ [ stackPush ] ----------------------
 # 
 # Adds a element to the stack
-# param $a0:    Stack head
-# param $a1:    Stack pointer
-# param $a2:    Data to push
+# param     $a0:    Stack ref
+# param     $a1:    Data to push
 stackPush:
-    lw		$t0, 0($a1)		    # Load $t0 = $a1
-    sll     $t1, $t0, 2         # $t1 = $a1 << 2
-    add		$t1, $a0, $t1		# $t1 = $a0 + $t1
-    sw		$a2, 0($t1)		    # Store *$t1 = $a2
-    addi	$a1, $a1, 1			# $a1 = $a1 + 1
-    sw		$t0, 0($a1)		    # Store *$a1 = $t0
-    jr $ra
+    lw		    $t0, 0($s0)		# Load the stack's reference
+    sw		    $a1, 0($t0)		# Store at stack's reference
+    addi	    $t0, $t0, -4	# $t0 = $t0 + -4
+    sw          $t0, 0($s0)     # Store the new stack reference
+    jr		    $ra				# jump to $ra  
+       
