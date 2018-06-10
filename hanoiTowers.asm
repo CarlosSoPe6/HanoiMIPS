@@ -1,11 +1,14 @@
 	
           
 .text    
-	lui	$at, 0x1001
+	ori 	$a0, $at , 0x1001 	
+	sll     $a0, $a0, 16
 	ori 	$a0, $at , 0x0000 	# Pointer to stack A
-	lui 	$at, 0x1001
+	ori 	$a0, $at , 0x1001 	
+	sll     $a0, $a0, 16
 	ori 	$a1, $at , 0x0050       # Pointer to stack B
-	lui 	$at, 0x1001
+	ori 	$a0, $at , 0x1001 	
+	sll     $a0, $a0, 16
 	ori 	$a2, $at , 0x00A0       # Pointer to stack c  
 		
 main:	
@@ -26,8 +29,7 @@ for:
 	sw 	$t2, 0($t1)             # Loading data from memory (vector1)
         j 	for
 endfor:               
-        lui	$at, 0x1001
-	ori 	$s0, $at , 0x00f0 	# Pointer to stack A
+       
 	jal	hanoi
 
 hanoi: 
