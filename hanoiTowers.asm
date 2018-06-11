@@ -120,11 +120,6 @@ stackPush:
 # End stackPush
 	add     $a1, $zero, $t2     # Restoring aux value
                                            
-#	add		$t3, $zero, $a1         # Backing aux
-#	add		$t4, $zero, $a2         # Backing target
-#	add		$a2, $zero, $a0         # Now a2 --> source
-#	add		$a1, $zero, $t4         # Now a1 --> target
-#	add		$a0, $zero, $t3         # Now a0 --> aux
 	lw		$a3, 16($sp)			# Get the original N value
 	addi 	$a3, $a3, -1        	# Decrement N
 
