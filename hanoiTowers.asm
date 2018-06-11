@@ -37,11 +37,11 @@ main:
 					# the reference in a arg ttarget
 	sw	$t2, 0($t3)		# Store the stack C reference
 
-	addi	$a3, $zero, 3		# $a3 = $zero + 3
+	addi	$a3, $zero, 6		# $a3 = $zero + 3
 					# Number of d
 	
 
-# ----------------------------[Filling clycle]------------------------------------
+# ----------------------------[Filling cycle]------------------------------------
 #
 # Fill stackA with the N plates and its values
 # param s3: for's counter = k
@@ -61,7 +61,7 @@ endfor:
 	jal	hanoi
 	jal 	end
 
-#------------------------------[Hanoi Functio]--------------------------------------
+#------------------------------[Hanoi Function]--------------------------------------
 #
 # Determine the correct move to organize the towers following the given rules
 # param a0: source pointer
@@ -85,7 +85,7 @@ loop:
 	# Swap target and aux references
 	add	$t0, $zero, $a1		# $t0 = $zero + $a1
 	add	$a1, $zero, $a2		# $a1 = $zero + $a2
-	add	$a2, $zero, $t0		# $a2 = $zero + $a2
+	add	$a2, $zero, $t0		# $a2 = $zero + $a1
         
 	jal     hanoi
         
