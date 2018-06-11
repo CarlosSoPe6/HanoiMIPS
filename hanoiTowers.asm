@@ -76,9 +76,9 @@ hanoi:
 loop: 
 	addi    $sp, $sp, -20           # Decreasing stack pointer
 	sw		$ra, 0($sp)             # Storing return address
-	sw		$a0, 4($sp)             # Storing stackA pointer 
-	sw		$a1, 8($sp)             # Storing stackB pointer
-	sw      $a2, 12($sp)            # Storing stackC pointer
+	sw		$a0, 4($sp)             # Storing SRC pointer 
+	sw		$a1, 8($sp)             # Storing Aux pointer
+	sw      $a2, 12($sp)            # Storing Target pointer
 	sw      $a3, 16($sp)            # Storing N
 	addi 	$a3, $a3, -1			# Decrement N
 		
@@ -120,20 +120,20 @@ stackPush:
 # End stackPush
 	add     $a1, $zero, $t2     # Restoring aux value
                                            
-	add		$t3, $zero, $a1         # Backing aux
-	add		$t4, $zero, $a2         # Backing target
-	add		$a2, $zero, $a0         # Now a2 --> source
-	add		$a1, $zero, $t4         # Now a1 --> target
-	add		$a0, $zero, $t3         # Now a0 --> aux
+#	add		$t3, $zero, $a1         # Backing aux
+#	add		$t4, $zero, $a2         # Backing target
+#	add		$a2, $zero, $a0         # Now a2 --> source
+#	add		$a1, $zero, $t4         # Now a1 --> target
+#	add		$a0, $zero, $t3         # Now a0 --> aux
 	lw		$a3, 16($sp)			# Get the original N value
 	addi 	$a3, $a3, -1        	# Decrement N
 
 	jal     hanoi
 	
 	lw		$ra, 0($sp)         	# Loading return address
-	lw		$a0, 4($sp)             # Loading stackA pointer
-	lw		$a1, 8($sp)         	# Loading stackB pointer
-	lw      $a2, 12($sp)        	# Loading stackC pointer
+	lw		$a3, 4($sp)             # Loading Source pointer
+	lw		$a0, 8($sp)         	# Loading Aux pointer
+	lw      $a2, 12($sp)        	# Loading Target pointer
 	lw      $a3, 16($sp)        	# Loading N
 	addi    $sp, $sp, 20        	# Increasing stack pointer
 	jr      $ra
