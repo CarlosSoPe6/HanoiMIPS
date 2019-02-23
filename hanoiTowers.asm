@@ -165,3 +165,5 @@ _stackPop:
 	jr		$ra				# jump to $ra 
 
 end:
+	addi	$zero, $zero, $zero	# NOP
+	
